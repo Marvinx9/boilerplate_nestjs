@@ -1,29 +1,29 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
-import { hash } from 'bcrypt';
-import { CreateUserInputDto } from '../dto/createUserInput.dto';
-import { IUserRepository } from '../repositories/user.repository';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
+import { PostProductInputDto } from '../dto/postProductInput.dto';
+import { PostProductRepository } from '../repository/postProduct.repository';
 
 @Injectable()
-export class CreateUserService {
-  private readonly logger = new Logger(CreateUserService.name);
-  constructor(private userRepository: IUserRepository) {}
+export class PostProductService {
+  constructor(private postProductRepository: PostProductRepository) {}
 
-  async execute(data: CreateUserInputDto) {
-    const user = await this.userRepository.findByUsernameOrEmail(
-      data.username,
-      data.email,
-    );
+  async execute(data: PostProductInputDto) {
+    try {
+      if (
+        !(await this.postProductRepository.findEnterpriseById(
+          data.enterpriseId,
+        ))
+      ) {
+        throw new BadRequestException('enterprise not found!');
+      }
 
-    if (user) {
-      this.logger.error(`User ${data.username} already exists... `, data);
-      throw new BadRequestException('User already exists!');
+      await this.postProductRepository.save(data);
+    } catch (error) {
+      if (error instanceof BadRequestException) throw error;
+      throw new InternalServerErrorException(error.getMessage);
     }
-
-    const password = await hash(data.password, 10);
-
-    return await this.userRepository.save({
-      ...data,
-      password,
-    });
   }
 }

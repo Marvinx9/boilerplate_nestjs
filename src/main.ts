@@ -8,24 +8,16 @@ config();
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
-    .setTitle('Tarefas-api')
-    .setDescription('The Tarefas-api description')
+    .setTitle('Boilerplate')
+    .setDescription('The Boilerplate description')
     .setVersion('1.0')
     .addTag('Modules')
-    .addBearerAuth(
-      {
-        type: 'http',
-        scheme: 'bearer',
-        bearerFormat: 'JWT',
-        in: 'header',
-      },
-      'header',
-    )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
 
+  app.enableCors();
   await app.listen(3000);
 }
 bootstrap();

@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { CreateUserService } from './createUser.service';
 import { CreateUserInputDto } from '../dto/createUserInput.dto';
-import { IUserRepository } from '../repositories/user.repository';
+import { IUserRepository } from '../repository/user.repository';
 import { BadRequestException } from '@nestjs/common';
 
 describe('CreateUserService', () => {
