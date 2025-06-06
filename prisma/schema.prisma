@@ -1,0 +1,34 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Enterprise {
+  id         Int       @id @default(autoincrement())
+  name       String
+  cnpj       String     @unique
+  telephone  String
+  email      String
+  address    String
+  products   Product[]
+  activity   Boolean    @default(true)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+}
+
+model Product {
+  id            Int         @id @default(autoincrement())
+  name          String
+  price         Int
+  quantity      Int
+  activity      Boolean     @default(true)
+  enterpriseId  Int
+  enterprise    Enterprise  @relation(fields: [enterpriseId], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
