@@ -2,28 +2,29 @@ version: '3.5'
 
 services:
   postgres:
-    image: "postgres:latest"
+    image: 'postgres:latest'
     environment:
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=postgres
       - PGDATA=/data/postgres
     volumes:
       - postgres:/data/postgres
     ports:
-      - "5432:5432"
+      - '5432:5432'
     networks:
       - postgres
     restart: unless-stopped
 
   app:
     build: .
-    command: ["npm", "run", "start:dev"]
+    command: ./start.sh
     depends_on:
       - postgres
     environment:
       - DATABASE_URL=postgresql://${DB_USERNAME}:${DB_PASSWORD}@postgres:5432/postgres
     ports:
-      - "3000:3000"
+      - '3000:3000'
     networks:
       - postgres
     volumes:

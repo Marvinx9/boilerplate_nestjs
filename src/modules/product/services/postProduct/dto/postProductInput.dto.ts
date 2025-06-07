@@ -35,16 +35,4 @@ export class PostProductInputDto {
   @IsNumber()
   @Type(() => Number)
   enterpriseId: number;
-
-  @ApiProperty({
-    description: 'date creation of product default sysdate',
-    required: false,
-  })
-  createdAt?: Date;
-
-  @ApiProperty({
-    description: 'date updated of product default null',
-    required: false,
-  })
-  updatedAt?: Date;
 }

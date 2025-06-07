@@ -17,7 +17,7 @@ model Enterprise {
   address    String
   products   Product[]
   createdAt  DateTime   @default(now())
-  updatedAt  DateTime
+  updatedAt DateTime @updatedAt
 }
 
 model Product {
@@ -29,5 +29,5 @@ model Product {
   enterpriseId  Int
   enterprise    Enterprise  @relation(fields: [enterpriseId], references: [id])
   createdAt     DateTime    @default(now())
-  updatedAt     DateTime
+  updatedAt DateTime @updatedAt
 }

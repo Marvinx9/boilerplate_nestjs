@@ -4,21 +4,21 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { PostEnterpriseInputDto } from '../dto/postEnterpriseInput.dto';
-import { EnterprisePrismaRepository } from '../repository/enterprise.prisma.repository';
+import { PostEnterpriseaRepository } from '../repository/postEnterprise.repository';
 
 @Injectable()
 export class PostEnterpriseService {
-  constructor(private enterprisePrismaRepository: EnterprisePrismaRepository) {}
+  constructor(private postEnterpriseaRepository: PostEnterpriseaRepository) {}
 
   async execute(data: PostEnterpriseInputDto) {
     try {
       if (
-        await this.enterprisePrismaRepository.findEnterpriseByCNPJ(data.cnpj)
+        await this.postEnterpriseaRepository.findEnterpriseByCNPJ(data.cnpj)
       ) {
         throw new BadRequestException('enterprise already exists!');
       }
 
-      await this.enterprisePrismaRepository.save(data);
+      await this.postEnterpriseaRepository.save(data);
     } catch (error) {
       if (error instanceof BadRequestException) throw error;
       throw new InternalServerErrorException(error.getMessage);

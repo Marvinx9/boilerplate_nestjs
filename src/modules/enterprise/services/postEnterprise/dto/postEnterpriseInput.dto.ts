@@ -15,10 +15,4 @@ export class PostEnterpriseInputDto {
 
   @ApiProperty({ description: 'id of enterprise' })
   address: string;
-
-  @ApiProperty({ description: 'date creation of product' })
-  createdAt: Date;
-
-  @ApiProperty({ description: 'date ofupdate of product' })
-  updatedAt: Date;
 }
