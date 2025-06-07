@@ -10,11 +10,11 @@ docker compose up --build
 
 ### entry swagger
 
-````bash
+```bash
 localhost:3000/docs
 ```
 
 ### UML
 
 ![alt text](img/uml.png)
-````
+
